@@ -1,14 +1,27 @@
 package com.guilherme.crud_client.entities;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "tb_client")
 public class Client {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long  id;
+
+
     private String name;
+
+    @Column ( unique = true)
     private String cpf;
+
     private Double income;
+
     private LocalDate birthDate;
+
     private Integer children;
 
     public Client() {
@@ -69,5 +82,18 @@ public class Client {
 
     public void setChildren(Integer children) {
         this.children = children;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Client client = (Client) o;
+        return id == client.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(id);
     }
 }
