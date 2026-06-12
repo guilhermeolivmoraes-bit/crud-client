@@ -17,7 +17,7 @@ public class ClientService {
     @Autowired
     private ClientRepository repository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public ClientDTO findById(Long id) {
             Client client = repository.findById(id).get();
             return new ClientDTO(client);
@@ -47,6 +47,11 @@ public class ClientService {
         return new ClientDTO(entity);
     }
 
+    @Transactional
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
     private void copyDtoEntity(ClientDTO dto, Client entity) {
         entity.setName(dto.getName());
         entity.setCpf(dto.getCpf());
@@ -54,4 +59,5 @@ public class ClientService {
         entity.setBirthDate(dto.getBirthDate());
         entity.setChildren(dto.getChildren());
     }
+    
 }
